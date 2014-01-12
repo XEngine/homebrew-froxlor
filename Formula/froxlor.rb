@@ -19,7 +19,7 @@ class Froxlor < Formula
   end
 
   # Check PHP
-  if build.include?('with-nginx') || build.include?('with-lighttpd')
+  if build.include?('with-nginx') || build.include?('with-lighttpd')
     depends_on 'php55' => ['with-mysql', 'with-fpm', 'without-apache']
   else
     depends_on 'php55' => ['with-mysql']
