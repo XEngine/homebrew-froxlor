@@ -29,13 +29,15 @@ class Froxlor < Formula
   def install
     # Download tar.gz and extract it
     if build.include?('with-apache')
-      system "cd /usr/local/opt/apache/html"
+      wwwroot = "/usr/local/opt/apache/"
     elsif build.include?('with-lighttpd')
-      system "cd /usr/local/opt/lighttpd/html"
+      wwwroot = "/usr/local/opt/lighttpd/"
     else
-      system "cd /usr/local/opt/nginx/html"
+      wwwroot = "/usr/local/opt/nginx/html/"
     end
-    system "curl", "-o froxlor.tar.gz", url
+    
+    system "cd {wwwroot}"
+    system "curl", "-o {wwwroot}froxlor.tar.gz", url
     system "tar", "xvfz", "froxlor.tar.gz"
     system "rm", "froxlor.tar.gz"
     
