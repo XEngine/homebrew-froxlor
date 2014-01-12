@@ -31,7 +31,7 @@ class Froxlor < Formula
   def install
     puts "Please enter your password so we can move the launchctl files into place."
     # Start PHP-FPM if needed
-    if !build.include?('with-apache')
+    if build.include?('with-nginx') || build.include?('with-lighttpd')
       system "sudo ln -sfv /usr/local/opt/php55/*.plist ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
       system "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
     end
