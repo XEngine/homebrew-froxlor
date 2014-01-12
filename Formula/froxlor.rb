@@ -7,23 +7,22 @@ class Froxlor < Formula
   version "0.9.31.2"
 
   # Webservers we will support
-  if (build.include?('with-apache') && build.include?('with-nginx')) || (build.include?('with-nginx') && build.include?('with-lighttpd')) || (build.include?('with-apache') && build.include?('with-lighttpd'))
-
+  if build.include?('with-nginx') && build.include?('with-lighttpd')
     raise "You cannot use more than one webserver with froxlor."
     super
-  elsif build.include?('with-apache')
-    # No dependecies as apache2 comes with OS X
+  elsif build.include?('with-nginx')
+    depends_on 'nginx'
   elsif build.include?('with-lighttpd')
     depends_on 'lighttpd'
   else
-    depends_on 'nginx'
+    # No dependecies as apache2 comes with OS X
   end
 
   # Check PHP
-  if build.include?('with-apache')
-    depends_on 'php55' => ['with-mysql']
-  else
+  if build.include?('with-nginx') || build.include?('with-lighttpd')
     depends_on 'php55' => ['with-mysql', 'with-fpm', 'without-apache']
+  else
+    depends_on 'php55' => ['with-mysql']
   end
   
   # Check MySQL
@@ -42,17 +41,18 @@ class Froxlor < Formula
     system "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist"
     
     # Move froxlor into place and start webserver
-    if build.include?('with-apache')
-      system "mv", buildpath, "/usr/local/opt/apache/"
-      system "sudo apachectl start"
-    elsif build.include?('with-lighttpd')
+    
+    if build.include?('with-lighttpd')
       system "mv", buildpath, "/usr/local/opt/lighttpd/"
       system "sudo ln -sfv /usr/local/opt/lighttpd/*.plist ~/Library/LaunchAgents/homebrew.mxcl.lighttpd.plist"
       system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.lighttpd.plist"
-    else
+    elsif build.include?('with-nginx')
       system "mv", buildpath, "/usr/local/opt/nginx/html/"
       system "sudo ln -sfv /usr/local/opt/nginx/*.plist ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist"
       system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist"
+    elsif
+      system "mv", buildpath, "/Library/WebServer/Documents/"
+      system "sudo apachectl start"
     end
 
     system "mv", buildpath, @wwwroot
