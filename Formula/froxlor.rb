@@ -19,14 +19,18 @@ class Froxlor < Formula
     depends_on 'nginx'
   end
 
-  # Install PHP
+  # Check PHP
   if build.include?('with-apache')
-    depends_on 'php55'
+    depends_on 'php55' => ['with-mysql']
   else
     depends_on 'php55' => ['with-mysql', 'with-fpm', 'without-apache']
   end
+  
+  # Check MySQL
+  depends_on "mysql"
 
   def install
+    puts "Please enter your password so we can move the launchctl files into place."
     # Start PHP-FPM if needed
     if !build.include?('with-apache')
       system "sudo ln -sfv /usr/local/opt/php55/*.plist ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
