@@ -7,9 +7,7 @@ class Froxlor < Formula
   version "0.9.31.2"
 
   # Webservers we will support
-  if (build.include?('with-apache') && build.include?('with-nginx'))
-    || (build.include?('with-nginx') && build.include?('with-lighttpd'))
-    || (build.include?('with-apache') && build.include?('with-lighttpd'))
+  if (build.include?('with-apache') && build.include?('with-nginx')) || (build.include?('with-nginx') && build.include?('with-lighttpd')) || (build.include?('with-apache') && build.include?('with-lighttpd'))
 
     raise "You cannot use more than one webserver with froxlor."
     super
