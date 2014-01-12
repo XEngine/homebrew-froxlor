@@ -27,13 +27,28 @@ class Froxlor < Formula
   end
 
   def install
-    # Download tar.gz and extract it
+    # Start PHP-FPM if needed
+    if !build.include?('with-apache')
+      system "sudo ln -sfv /usr/local/opt/php55/*.plist ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
+      system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
+    end
+    
+    # Start MySQL
+    system "sudo ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist"
+    system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist"
+    
+    # Move froxlor into place and start webserver
     if build.include?('with-apache')
-      @wwwroot = "/usr/local/opt/apache/"
+      system "mv", buildpath, "/usr/local/opt/apache/"
+      system "sudo apachectl start"
     elsif build.include?('with-lighttpd')
-      @wwwroot = "/usr/local/opt/lighttpd/"
+      system "mv", buildpath, "/usr/local/opt/lighttpd/"
+      system "sudo ln -sfv /usr/local/opt/lighttpd/*.plist ~/Library/LaunchAgents/homebrew.mxcl.lighttpd.plist"
+      system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.lighttpd.plist"
     else
-      @wwwroot = "/usr/local/opt/nginx/html/"
+      system "mv", buildpath, "/usr/local/opt/nginx/html/"
+      system "sudo ln -sfv /usr/local/opt/nginx/*.plist ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist"
+      system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist"
     end
 
     system "mv", buildpath, @wwwroot
