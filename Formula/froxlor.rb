@@ -27,6 +27,11 @@ class Froxlor < Formula
   end
 
   def install
+    # Download tar.gz and extract it
+    system "cd", "/usr/local/opt/nginx/html/"
+    system "curl", "-o latest.tar.gz", "{url}"
+    system "tar". "xvfz", "latest.tar.gz"
+    
     # ENV.deparallelize  # if your formula fails when building in parallel
 
     # Remove unrecognized options if warned by configure
