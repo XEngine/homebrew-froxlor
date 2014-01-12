@@ -2,7 +2,7 @@ require "formula"
 
 class Froxlor < Formula
   homepage "http://www.froxlor.org/"
-  url "http://files.froxlor.org/releases/froxlor-0.9.31.2.tar.gz"
+  url "http://files.froxlor.org/releases/froxlor-latest.tar.gz"
   sha1 "7ef60b51da9075448efa7af55857b4692645168d"
   version "0.9.31.2"
 
@@ -28,9 +28,11 @@ class Froxlor < Formula
 
   def install
     # Download tar.gz and extract it
-    system "cd", "/usr/local/opt/nginx/html/"
+    system "mkdir", "/var/www"
+    system "cd", "/var/www"
     system "curl", "-o latest.tar.gz", "{url}"
-    system "tar". "xvfz", "latest.tar.gz"
+    system "tar", "xvfz", "latest.tar.gz"
+    system "rm", "latest.tar.gz"
     
     # ENV.deparallelize  # if your formula fails when building in parallel
 
