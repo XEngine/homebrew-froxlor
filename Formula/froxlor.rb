@@ -34,12 +34,12 @@ class Froxlor < Formula
     # Start PHP-FPM if needed
     if !build.include?('with-apache')
       system "sudo ln -sfv /usr/local/opt/php55/*.plist ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
-      system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
+      system "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
     end
     
     # Start MySQL
     system "sudo ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist"
-    system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist"
+    system "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist"
     
     # Move froxlor into place and start webserver
     if build.include?('with-apache')
