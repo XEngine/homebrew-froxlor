@@ -12,7 +12,7 @@ class Froxlor < Formula
     raise "You cannot use more than one webserver with froxlor."
     super
   elsif build.include?('with-apache')
-    depends_on 'apache2'
+    # No dependecies as apache2 comes with OS X
   elsif build.include?('with-lighttpd')
     depends_on 'lighttpd'
   else
@@ -23,23 +23,20 @@ class Froxlor < Formula
   if build.include?('with-apache')
     depends_on 'php55'
   else
-    depends_on 'php55' => ['with-mysql', 'with-fpm', 'with-apache']
+    depends_on 'php55' => ['with-mysql', 'with-fpm', 'without-apache']
   end
 
   def install
     # Download tar.gz and extract it
     if build.include?('with-apache')
-      wwwroot = "/usr/local/opt/apache/"
+      @wwwroot = "/usr/local/opt/apache/"
     elsif build.include?('with-lighttpd')
-      wwwroot = "/usr/local/opt/lighttpd/"
+      @wwwroot = "/usr/local/opt/lighttpd/"
     else
-      wwwroot = "/usr/local/opt/nginx/html/"
+      @wwwroot = "/usr/local/opt/nginx/html/"
     end
-    
-    system "cd {wwwroot}"
-    system "curl", "-o {wwwroot}froxlor.tar.gz", url
-    system "tar", "xvfz", "froxlor.tar.gz"
-    system "rm", "froxlor.tar.gz"
+
+    system "mv", buildpath, @wwwroot
     
     # ENV.deparallelize  # if your formula fails when building in parallel
 
