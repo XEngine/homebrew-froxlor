@@ -51,8 +51,9 @@ class Froxlor < Formula
       system "sudo ln -sfv /usr/local/opt/nginx/*.plist ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist"
       system "sudo launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist"
     elsif
-      system "sudo mv", buildpath, "/Library/WebServer/Documents/"
-      system "sudo apachectl start"
+      system "sudo mv", buildpath, "/Library/WebServer/Documents/froxlor"
+      system "sudo chown -R _www:staff /Library/WebServer/Documents"
+      system "sudo apachectl restart"
     end
 
     system "mv", buildpath, @wwwroot
