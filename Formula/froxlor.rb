@@ -35,7 +35,7 @@ class Froxlor < Formula
     else
       system "cd /usr/local/opt/nginx/html"
     end
-    system "curl", "-o froxlor.tar.gz", "{url}"
+    system "curl", "-o froxlor.tar.gz", url
     system "tar", "xvfz", "froxlor.tar.gz"
     system "rm", "froxlor.tar.gz"
     
