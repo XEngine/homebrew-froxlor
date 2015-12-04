@@ -20,9 +20,9 @@ class Froxlor < Formula
 
   # Check PHP
   if build.include?('with-nginx') || build.include?('with-lighttpd')
-    depends_on 'php55' => ['with-mysql', 'with-fpm', 'without-apache']
+    depends_on 'php70' => ['with-mysql', 'with-fpm', 'without-apache']
   else
-    depends_on 'php55' => ['with-mysql']
+    depends_on 'php70' => ['with-mysql']
   end
   
   # Check MySQL
@@ -32,8 +32,8 @@ class Froxlor < Formula
     puts "Please enter your password so we can move the launchctl files into place."
     # Start PHP-FPM if needed
     if build.include?('with-nginx') || build.include?('with-lighttpd')
-      system "sudo ln -sfv /usr/local/opt/php55/*.plist ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
-      system "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55-fpm.plist"
+      system "sudo ln -sfv /usr/local/opt/php70/*.plist ~/Library/LaunchAgents/homebrew.mxcl.php70-fpm.plist"
+      system "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php70-fpm.plist"
     end
     
     # Start MySQL
