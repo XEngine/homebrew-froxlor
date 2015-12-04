@@ -2,9 +2,9 @@ require "formula"
 
 class Froxlor < Formula
   homepage "http://www.froxlor.org/"
-  url "http://files.froxlor.org/releases/froxlor-0.9.31.2.tar.gz"
+  url "http://files.froxlor.org/releases/froxlor-latest.tar.gz"
   sha1 "7ef60b51da9075448efa7af55857b4692645168d"
-  version "0.9.31.2"
+  version "0.9.34"
 
   # Webservers we will support
   if build.include?('with-nginx') && build.include?('with-lighttpd')
